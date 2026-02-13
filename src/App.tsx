@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import './App.css';
+
+// 분리된 리액트 컴포넌트 import
+import MenuItems from './ui/MenuItems';
+import AppRouters from './routes/AppRouters';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const appName = "IT Academy Coffee Shop";
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <MenuItems appName={appName} />
+
+      {/* 분리된 라우터 정보 */}
+      <AppRouters />
+
+      <footer className="bg-dark text-light text-center py-3 mt-5">
+        <p>&copy; 2025 {appName}. All rights reserved.</p>
+      </footer>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
