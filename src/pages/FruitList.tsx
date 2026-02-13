@@ -7,17 +7,19 @@ import type { Fruit } from "../types/Fruit"
 
 function App() {
     const [fruitList, setFruitList] = useState<Fruit[]>([]); // 넘어온 과일 목록
+    const url = `${API_BASE_URL}/fruit/list`;
 
     useEffect(() => {
-        const url = `${API_BASE_URL}/fruit/list`;
-
-        axios
-            .get(url, {})
-            .then((response) => {
-                //console.log(response.data);
+        const fetchData = async () => {
+            try { // axios에 제네릭 타입 추가
+                const response = await axios.get<Fruit[]>(url);
                 setFruitList(response.data);
-            });
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
+        fetchData();
     }, []);
 
     return (
@@ -35,7 +37,7 @@ function App() {
                         <tr key={fruit.id}>
                             <td>{fruit.id}</td>
                             <td>{fruit.name}</td>
-                            <td>{Number(fruit.price).toLocaleString()} 원</td>
+                            <td>{fruit.price.toLocaleString()} 원</td>
                         </tr>
                     )}
                 </tbody>
