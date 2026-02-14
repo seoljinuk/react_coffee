@@ -1,0 +1,118 @@
+import { useState } from "react";
+import { Container, Row, Col, Card, Alert, Form, Button } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+
+import axios from "../api/axiosInstance.tsx";
+import type { LoginResponse } from "../types/LoginResponse";
+
+function Login({ setUser }: any) {
+
+    // 로그인 state
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    // 에러 메시지
+    const [errors, setErrors] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleLogin = async (event: React.FormEvent) => {
+        event.preventDefault();
+        console.log("로그인 시도 중...");
+
+        try { // email : 파라미터로 넘겨 지는 로그인 사용자가 기입한 이메일
+            const response = await axios.post<LoginResponse>(
+                "/member/login",
+                { email, password }
+            );
+
+            // 서버에서 내려 받은 데이터 챙기기
+            // userEmail : 서버에서 내려 받은 이메일 정보
+            const { accessToken, ...userData } = response.data;
+            console.log("응답 데이터 : ", response.data);
+
+            // JWT 저장
+            localStorage.setItem("accessToken", accessToken);
+
+            if (setUser) {
+                setUser(userData);
+                localStorage.setItem("user", JSON.stringify(userData));
+            }
+
+            console.log("로그인 성공 사용자:", userData);
+
+            // ✅ 홈으로 이동
+            navigate("/");
+
+        } catch (error: any) {
+            if (error.response) {
+                setErrors(error.response.data.message || "로그인 실패");
+            } else {
+                setErrors("Server Error");
+            }
+        }
+    };
+
+    return (
+        <Container fluid className="d-flex justify-content-center align-items-center" style={{ height: "70vh" }}>
+            <Row className="w-100 justify-content-center">
+                <Col md={6} sm={10}>
+                    <Card>
+                        <Card.Body>
+                            <h2 className="text-center mb-4">로그인</h2>
+
+                            {errors && <Alert variant="danger">{errors}</Alert>}
+
+                            <Form onSubmit={handleLogin}>
+                                <Form.Group as={Row} className="mb-3 align-items-center">
+                                    <Form.Label column sm={3} className="text-end fw-bold text-primary">
+                                        이메일
+                                    </Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control
+                                            type="email"
+                                            placeholder="이메일을 입력해 주세요."
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            required
+                                        />
+                                    </Col>
+                                </Form.Group>
+
+                                <Form.Group as={Row} className="mb-3 align-items-center">
+                                    <Form.Label column sm={3} className="text-end fw-bold text-primary">
+                                        비밀 번호
+                                    </Form.Label>
+                                    <Col sm={9}>
+                                        <Form.Control
+                                            type="password"
+                                            placeholder="비밀 번호를 입력해 주세요."
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            required
+                                        />
+                                    </Col>
+                                </Form.Group>
+
+                                <Row className="g-2">
+                                    <Col xs={8}>
+                                        <Button variant="primary" type="submit" className="w-100">
+                                            로그인
+                                        </Button>
+                                    </Col>
+                                    <Col xs={4}>
+                                        <Link to="/member/signup" className="btn btn-outline-secondary w-100">
+                                            회원 가입
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Form>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
+
+export default Login;
