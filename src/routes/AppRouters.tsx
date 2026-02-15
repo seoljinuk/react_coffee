@@ -5,6 +5,7 @@ import FruitList from '../pages/FruitList';
 import HomePage from './../pages/HomePage';
 import LoginPage from "./../pages/LoginPage";
 import type { User } from "../types/User";
+import SignupPage from './../pages/SignupPage';
 
 
 type AppRoutersProps = {
@@ -20,6 +21,7 @@ function App({ user, handleLoginSuccess }: AppRoutersProps) {
          <Route path='/fruit/list' element={<FruitList />} />
          <Route path='/' element={<HomePage />} />
          <Route path='/member/login' element={< LoginPage setUser={handleLoginSuccess} />} />
+         <Route path='/member/signup' element={<SignupPage />} />
       </Routes>
    );
 }
