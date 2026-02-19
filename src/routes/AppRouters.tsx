@@ -6,6 +6,7 @@ import HomePage from './../pages/HomePage';
 import LoginPage from "./../pages/LoginPage";
 import type { User } from "../types/User";
 import SignupPage from './../pages/SignupPage';
+import ProductList from './../pages/ProductList';
 
 
 type AppRoutersProps = {
@@ -22,6 +23,8 @@ function App({ user, handleLoginSuccess }: AppRoutersProps) {
          <Route path='/' element={<HomePage />} />
          <Route path='/member/login' element={< LoginPage setUser={handleLoginSuccess} />} />
          <Route path='/member/signup' element={<SignupPage />} />
+
+         <Route path='/product/list' element={<ProductList user={user} />} />
       </Routes>
    );
 }
