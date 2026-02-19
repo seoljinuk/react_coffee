@@ -20,8 +20,9 @@ step 02
 */
 
 interface AppProps {
-    user?: User;  // 로그인 안 된 경우를 위해 optional 권장
+    user: User | null;
 }
+
 
 function App({ user }: AppProps) {
     console.log("현재 user:", user);

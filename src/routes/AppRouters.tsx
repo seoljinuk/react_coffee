@@ -7,7 +7,7 @@ import LoginPage from "./../pages/LoginPage";
 import type { User } from "../types/User";
 import SignupPage from './../pages/SignupPage';
 import ProductList from './../pages/ProductList';
-
+import ProductInsertForm from './../pages/ProductInsertForm';
 
 type AppRoutersProps = {
    user: User | null;
@@ -25,6 +25,7 @@ function App({ user, handleLoginSuccess }: AppRoutersProps) {
          <Route path='/member/signup' element={<SignupPage />} />
 
          <Route path='/product/list' element={<ProductList user={user} />} />
+         <Route path='/product/insert' element={<ProductInsertForm user={user} />} />
       </Routes>
    );
 }
