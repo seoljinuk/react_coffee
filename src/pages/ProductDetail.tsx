@@ -113,7 +113,7 @@ function App({ user }: AppProps) {
                 quantity: quantity
             };
 
-            const token = localStorage.getItem("accessToken");
+            // const token = localStorage.getItem("accessToken");
             const url = `/cart/insert`;
             const response = await axios.post(url, parameters);
             // const response = await axios.post(url, parameters, {
