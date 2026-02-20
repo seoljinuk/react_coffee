@@ -10,7 +10,6 @@ import type { CartProduct } from '../types/CartProduct';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-
 /* 
 구조 분해 할당 + 타입 지정
 
@@ -33,7 +32,11 @@ function App({ user }: AppProps) {
     const [cartProducts, setCartProducts] = useState<CartProduct[]>([]);
 
     useEffect(() => {
-        if (user && user?.id) {
+        //console.log("CartList user:", user);
+        console.log(localStorage.getItem("accessToken"));
+
+        if (user) {
+            // console.log('호출이 되나요.');
             fetchCartProducts();
         }
     }, [user]);
@@ -45,8 +48,14 @@ function App({ user }: AppProps) {
         if (!user) return;
 
         try {
-            const url = `/cart/list/${user.id}`;
-            const response = await axios.get(url, { withCredentials: true });
+            const url = `/cart/list/`
+            const token = localStorage.getItem("accessToken");
+
+            const response = await axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             console.log('카트 상품 조회 결과');
             console.log(response.data);
 
@@ -55,6 +64,7 @@ function App({ user }: AppProps) {
         } catch (error) {
             console.log('오류 정보');
             console.log(error);
+            
             alert(`'카트 상품' 정보가 존재하지 않아서 상품 목록 페이지로 이동합니다.`);
             navigate('/product/list');
         }
