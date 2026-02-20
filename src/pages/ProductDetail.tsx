@@ -106,9 +106,9 @@ function App({ user }: AppProps) {
         }
         //alert(`${product.name} ${quantity} 개를 장바구니에 담기`);
 
+        // memberId: user.id,
         try {
             const parameters = {
-                memberId: user.id,
                 productId: product.id,
                 quantity: quantity
             };
