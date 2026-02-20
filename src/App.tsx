@@ -12,7 +12,11 @@ function App() {
 
   // user : 로그인 한 사람의 정보를 저장하고 있는 state
   // 클라이언트에서 사용자 정보를 저장하기 위하여 localStorage를 사용하겠습니다.
-  const [user, setUser] = useState<User | null>(null);
+  // 초기 로딩 시 로그인 정보 다시 읽어 오기
+  const [user, setUser] = useState<User | null>(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   // JSON.parse()는 JSON 형태의 문자열을 자바 스크립트 객체 형태로 변환해 줍니다.
   useEffect(() => {
@@ -26,6 +30,8 @@ function App() {
   const handleLoginSuccess = (userData: User) => {
     // userData : LoginPage.js에서 반환 받은 member 정보입니다.
     setUser(userData);
+
+    // 로그인 성공시 로컬 스토리지에 데이터 저장
     localStorage.setItem('user', JSON.stringify(userData));
     console.log('로그인 성공');
   }

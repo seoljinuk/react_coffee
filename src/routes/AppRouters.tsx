@@ -9,6 +9,7 @@ import SignupPage from './../pages/SignupPage';
 import ProductList from './../pages/ProductList';
 import ProductInsertForm from './../pages/ProductInsertForm';
 import ProductUpdateForm from './../pages/ProductUpdateForm';
+import ProductDetail from './../pages/ProductDetail';
 
 type AppRoutersProps = {
    user: User | null;
@@ -30,6 +31,8 @@ function App({ user, handleLoginSuccess }: AppRoutersProps) {
 
          {/* 기호 ":id"는 변수처럼 동작하는 매개 변수이고, ProductUpdateForm.js 파일에서 참조합니다. */}
          <Route path='/product/update/:id' element={<ProductUpdateForm user={user} />} />
+         <Route path='/product/detail/:id' element={<ProductDetail user={user} />} />
+
       </Routes>
    );
 }
